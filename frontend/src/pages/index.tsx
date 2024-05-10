@@ -4,6 +4,7 @@ import { ThemeProvider } from "@emotion/react";
 import Loading from "../components/loading";
 import THEME from "../mui-theme";
 import ProtectedRoute from "../components/protected";
+import PublicRoute from "../components/public";
 import Home from "./home";
 import Login from "./login";
 
@@ -21,7 +22,14 @@ const App = () => (
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
           <Route path="*" element={<p> Page Not found! </p>} />
         </Routes>
       </BrowserRouter>

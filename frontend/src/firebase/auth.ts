@@ -3,19 +3,15 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
-  browserSessionPersistence,
   getAuth,
-  setPersistence,
   onAuthStateChanged,
   type User,
 } from "firebase/auth";
 import app from "./config";
 
-export const auth = getAuth(app);
-setPersistence(auth, browserSessionPersistence);
-
 const googleProvider = new GoogleAuthProvider();
 
+export const auth = getAuth(app);
 export const continueWithGoogle = () => signInWithPopup(auth, googleProvider);
 export const signInEmailPassword = (email: string, password: string) =>
   signInWithEmailAndPassword(auth, email, password);
