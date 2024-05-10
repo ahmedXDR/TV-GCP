@@ -1,7 +1,66 @@
-import React, { useState } from 'react';
 import useUser from '../../hooks/useUser';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const HomePage = () => {
+const MyComponent = () => {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const user = useUser();
+
+  const callGoogleCloudFunction = async () => {
+    if (!user) {
+      setMessage('User not authenticated');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('');
+
+    try {
+      // Retrieve the user's token
+      const token = await user.getIdToken();
+      console.log(token)
+
+      // Example data to send
+      const data = {
+        userId: user.uid,
+        exampleField: "exampleValue"
+      };
+
+      // Example Google Cloud function URL
+      const functionUrl = 'https://REGION-PROJECT_ID.cloudfunctions.net/FUNCTION_NAME';
+
+      // Call the Google Cloud function with the user's token and example data
+      const response = await axios.post(functionUrl, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      setMessage(`Function called successfully: ${response.data}`);
+    } catch (error) {
+      console.error('Error calling Google Cloud function:', error);
+      setMessage('Failed to call function');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={callGoogleCloudFunction} disabled={loading}>
+        {loading ? 'Calling Function...' : 'Call Google Cloud Function'}
+      </button>
+      <p>{message}</p>
+    </div>
+  );
+};
+
+
+
+
+const HomePage2 = () => {
   const [showForm, setShowForm] = useState(false);
   const [reason, setReason] = useState('');
   const user = useUser();
@@ -63,5 +122,7 @@ const HomePage = () => {
     </div>
   );
 };
+
+const HomePage = () => MyComponent();
 
 export default HomePage;
