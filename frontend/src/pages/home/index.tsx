@@ -25,20 +25,25 @@ const MyComponent = () => {
       // Example data to send
       const data = {
         userId: user.uid,
-        exampleField: "exampleValue"
+        exampleField: "exampleValue",
+        name: "John Doe",
       };
 
       // Example Google Cloud function URL
-      const functionUrl = 'https://REGION-PROJECT_ID.cloudfunctions.net/FUNCTION_NAME';
+      const functionUrl = 'https://function-1-h7enuuglvq-uc.a.run.app/';
 
-      // Call the Google Cloud function with the user's token and example data
-      const response = await axios.post(functionUrl, data, {
+      const response = await fetch(functionUrl, {
+        method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        mode: 'no-cors', // Disable CORS
+        body: JSON.stringify(data),
       });
+      const responseData = response.body;
 
-      setMessage(`Function called successfully: ${response.data}`);
+      setMessage(`Function called successfully: ${responseData}`);
     } catch (error) {
       console.error('Error calling Google Cloud function:', error);
       setMessage('Failed to call function');
@@ -67,7 +72,6 @@ const HomePage2 = () => {
 
   const handleRequestClick = () => {
     setShowForm(true);
-    console.log(user)
   };
 
   const handleReasonChange = (e) => {
@@ -78,6 +82,7 @@ const HomePage2 = () => {
     e.preventDefault();
     // Here, you can send the reason to the server or perform any other desired action
     console.log('Reason:', reason);
+    console.log(user.token)
     // Reset the form
     setReason('');
     setShowForm(false);
