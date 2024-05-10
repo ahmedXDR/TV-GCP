@@ -5,6 +5,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 export type User = {
   email: string;
   name: string;
+  group: string;
 };
 
 export type RequestResponseOwners = {
@@ -14,17 +15,16 @@ export type RequestResponseOwners = {
   created_at: string;
 };
 
-export type RequestResponseMembers = {
+export type RequestResponse = {
   id: string;
   user: User;
+  to: string;
   description: string;
   status: "pending" | "approved" | "rejected";
   created_at: string;
 };
 
-type RequestResponse = RequestResponseOwners | RequestResponseMembers;
-
-type RequestRequest = {
+export type RequestRequest = {
   from: string;
   to: string;
   description: string;

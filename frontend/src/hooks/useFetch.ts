@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 type FetchQueryProps<ResponseType> = {
-  data?: ResponseType | Error;
+  data: ResponseType | Error;
   loading: boolean;
 };
 
