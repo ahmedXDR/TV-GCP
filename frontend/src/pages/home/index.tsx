@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import useUser from '../../hooks/useUser';
 
 const HomePage = () => {
   const [showForm, setShowForm] = useState(false);
   const [reason, setReason] = useState('');
+  const user = useUser();
 
   const handleRequestClick = () => {
     setShowForm(true);
+    console.log(user)
   };
 
   const handleReasonChange = (e) => {
