@@ -5,6 +5,7 @@ import {
   signOut,
   getAuth,
   onAuthStateChanged,
+  getIdToken,
   type User,
 } from "firebase/auth";
 import app from "./config";
@@ -18,3 +19,10 @@ export const signInEmailPassword = (email: string, password: string) =>
 export const logout = () => signOut(auth);
 export const signInObserver = (callback: (user: User | null) => void) =>
   onAuthStateChanged(auth, callback);
+export const getUserAccessToken = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("User not logged in");
+  }
+  return getIdToken(user);
+};
