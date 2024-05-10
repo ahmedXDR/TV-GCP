@@ -20,13 +20,3 @@
         }
     ]
 }
-
-# Create groups
-gcloud identity groups create read-only@xdrdvd.me --organization="xdrdvd.me" --display-name="Read-Only Group" --description="Group for read-only permissions" --group-type="discussion"
-gcloud identity groups create admin@xdrdvd.me --organization="xdrdvd.me" --display-name="Admin Group" --description="Group for admin permissions" --group-type="discussion"
-gcloud identity groups create super-admin@xdrdvd.me --organization="xdrdvd.me" --display-name="Super Admin Group" --description="Group for super-admin permissions" --group-type="discussion"
-
-# Add users to respective groups
-gcloud identity groups memberships add read-only@xdrdvd.me --member email=user1@xdrdvd.me
-gcloud identity groups memberships add admin@xdrdvd.me --member email=user2@xdrdvd.me
-gcloud identity groups memberships add super-admin@xdrdvd.me --member email=user3@xdrdvd.me
