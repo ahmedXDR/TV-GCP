@@ -33,6 +33,7 @@ export type RequestRequest = {
 export const getRequests = async (): Promise<RequestResponse[]> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "GET",
+    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
@@ -52,6 +53,7 @@ export const createRequest = async ({
 }: RequestRequest): Promise<RequestResponse> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "POST",
+    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
       "Content-Type": "application/json",
@@ -69,6 +71,7 @@ export const createRequest = async ({
 export const acceptRequest = async (id: string): Promise<void> => {
   const response = await fetch(`${BACKEND_URL}/requests/${id}/accept`, {
     method: "POST",
+    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
@@ -82,6 +85,7 @@ export const acceptRequest = async (id: string): Promise<void> => {
 export const rejectRequest = async (id: string): Promise<void> => {
   const response = await fetch(`${BACKEND_URL}/requests/${id}/reject`, {
     method: "POST",
+    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
