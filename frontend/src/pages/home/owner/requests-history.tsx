@@ -84,7 +84,7 @@ export const RequestsHistory = ({ filter }: { filter: string }) => {
     return <div>Loading...</div>;
   }
 
-  if (requests instanceof Error) {
+  if (requests instanceof Error || !requests) {
     return <div>Error: {requests.message}</div>;
   }
 
