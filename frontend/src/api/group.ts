@@ -20,6 +20,7 @@ export const getCurrentUserGroups = async (): Promise<GroupResponse[]> => {
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
+    mode: 'no-cors',
   });
 
   if (!response.ok) {
