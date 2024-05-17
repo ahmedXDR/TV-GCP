@@ -1,24 +1,32 @@
-# User Guide
+### User Guide
 
-## Logging In
+#### For Developers
 
-You have 2 options of logging in:
+1. **Log In**:
 
-1. Using your Google account
-2. Using your email and password
+   - Visit the application [here](https://tv-gcp.web.app/).
+   - Log in using your Gmail account, you should use the same account that you used to access the Google Cloud Platform. `someone@xdrdvd.md`
 
-![](../assets/login_page.png)
+2. **Request Elevated Permissions**:
 
-## Requesting Elevated Permissions
+   - Navigate to the 'Request Permissions' section.
+   - Select the group and provide a description for the request.
+   - Submit the request.
 
-To request elevated permissions, you need to fill in the form on the main page.
+3. **Track Requests**:
 
-TODO: add image
+   - View the status of your requests in the 'Request History' section.
 
-## Viewing Requests
+   ![User View](../screenshots/developer.png)
 
-TODO: add image
+#### For Super Admins
 
-## Video Demonstration
+1. **View Requests**:
 
-TODO: add video
+   - Log in using your Gmail account, same account that you used to access the Google Cloud Platform. `someone@xdrdvd.md`.
+   - Navigate to the 'Admin View' section.
+   - Filter and view requests based on their status.
+
+2. **Manage Requests**:
+   - Accept or reject pending requests as necessary.
+     ![Admin View]("../screenshots/admin.png")
