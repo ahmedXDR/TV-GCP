@@ -8,7 +8,7 @@ export const StatusChip = ({ status }: { status: string }) => {
   const statusMap: {
     [key: string]: { label: string; color: "success" | "error" | "info" };
   } = {
-    approved: { label: "Accepted", color: "success" },
+    accepted: { label: "Accepted", color: "success" },
     rejected: { label: "Rejected", color: "error" },
     default: { label: "Pending", color: "info" },
   };

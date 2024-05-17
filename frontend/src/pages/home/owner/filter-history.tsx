@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-export type FilterType = "pending" | "approved" | "rejected" | "all";
+export type FilterType = "pending" | "accepted" | "rejected" | "all";
 
 export const FilterHistory = ({
   filter,
@@ -25,9 +25,9 @@ export const FilterHistory = ({
       Pending
     </Button>
     <Button
-      variant={filter === "approved" ? "contained" : "outlined"}
-      color={filter === "approved" ? "primary" : "info"}
-      onClick={() => setFilter("approved")}
+      variant={filter === "accepted" ? "contained" : "outlined"}
+      color={filter === "accepted" ? "primary" : "info"}
+      onClick={() => setFilter("accepted")}
     >
       Accepted
     </Button>

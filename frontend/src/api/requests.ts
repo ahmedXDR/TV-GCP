@@ -7,7 +7,7 @@ export type ElevatePermissionResponse = {
   email: string;
   group: string;
   description: string;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "accepted" | "rejected";
   created_at: string;
 };
 

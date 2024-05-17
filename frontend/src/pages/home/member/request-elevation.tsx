@@ -19,7 +19,12 @@ export const RequestElevation = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const request = { group, description } as GroupRequestPayload;
-    await mutate(request);
+    const response = await mutate(request);
+    if (response instanceof Error || !response) {
+      console.error(response.message);
+      alert("Failed to create request");
+      return;
+    }
     window.location.reload();
   };
 

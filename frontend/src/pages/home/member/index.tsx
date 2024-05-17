@@ -17,7 +17,9 @@ const MemberView = ({ groupInfo }: { groupInfo: GroupResponse[] }) => (
   >
     <div className="p-20 bg-gray-100 rounded-lg text-center flex flex-col gap-5">
       <div>
-        <h1 className="text-6xl font-bold mb-4">Welcome Developer!</h1>
+        <h1 className="text-3xl md:text-6xl font-bold mb-4">
+          Welcome Developer!
+        </h1>
         <p className="text-lg">
           You are a member of the following groups. You can request elevation to
           a higher group.
