@@ -4,7 +4,7 @@ import { getDateMedium, getTimeShort } from "../../../utils/date";
 import { Chip } from "@mui/material";
 import { GROUPS_IDS } from "../../../utils/constants";
 
-const StatusChip = ({ status }: { status: string }) => {
+export const StatusChip = ({ status }: { status: string }) => {
   const statusMap: {
     [key: string]: { label: string; color: "success" | "error" | "info" };
   } = {
@@ -41,6 +41,10 @@ export const RequestsHistory = () => {
 
   if (requests instanceof Error) {
     return <div>Error: {requests.message}</div>;
+  }
+
+  if (requests.length === 0) {
+    return <div>No requests found</div>;
   }
 
   return (

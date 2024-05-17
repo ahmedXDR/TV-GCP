@@ -12,12 +12,12 @@ const HomePage = () => {
     return <div>Loading...</div>;
   }
 
-  if (groupInfo instanceof Error) {
+  if (groupInfo instanceof Error || !groupInfo) {
     return <div>Error: {groupInfo.message}</div>;
   }
 
   return isSuperAdminOwner ? (
-    <OwnerView groupInfo={groupInfo} />
+    <OwnerView />
   ) : (
     <MemberView groupInfo={groupInfo} />
   );

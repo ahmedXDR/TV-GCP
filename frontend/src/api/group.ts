@@ -14,13 +14,11 @@ export interface GroupResponse {
 }
 
 export const getCurrentUserGroups = async (): Promise<GroupResponse[]> => {
-  console.log(`${BACKEND_URL}/request_permissions/groups`);
-  const response = await fetch(`${BACKEND_URL}/request_permissions/groups`, {
+  const response = await fetch(`${BACKEND_URL}/groups`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
-    mode: 'no-cors',
   });
 
   if (!response.ok) {

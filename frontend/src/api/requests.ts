@@ -2,21 +2,9 @@ import { getUserAccessToken } from "../firebase/auth";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export type User = {
-  email: string;
-  name: string;
-  group: string;
-};
-
-export type RequestResponseOwners = {
-  id: string;
-  user: User;
-  description: string;
-  created_at: string;
-};
-
 export type ElevatePermissionResponse = {
   id: string;
+  email: string;
   group: string;
   description: string;
   status: "pending" | "approved" | "rejected";
@@ -31,7 +19,6 @@ export type GroupRequestPayload = {
 export const getRequests = async (): Promise<ElevatePermissionResponse[]> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "GET",
-    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
@@ -50,7 +37,6 @@ export const createRequest = async ({
 }: GroupRequestPayload): Promise<ElevatePermissionResponse> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "POST",
-    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
       "Content-Type": "application/json",
@@ -65,10 +51,9 @@ export const createRequest = async ({
   return await response.json();
 };
 
-export const acceptRequest = async (id: string): Promise<void> => {
-  const response = await fetch(`${BACKEND_URL}/requests/${id}/accept`, {
+export const acceptRequest = async (id: string): Promise<boolean> => {
+  const response = await fetch(`${BACKEND_URL}/accept?id=${id}`, {
     method: "POST",
-    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
@@ -77,12 +62,13 @@ export const acceptRequest = async (id: string): Promise<void> => {
   if (!response.ok) {
     throw new Error("Failed to accept request: " + response.statusText);
   }
+
+  return true;
 };
 
-export const rejectRequest = async (id: string): Promise<void> => {
-  const response = await fetch(`${BACKEND_URL}/requests/${id}/reject`, {
+export const rejectRequest = async (id: string): Promise<boolean> => {
+  const response = await fetch(`${BACKEND_URL}/reject?id=${id}`, {
     method: "POST",
-    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
     },
@@ -91,4 +77,6 @@ export const rejectRequest = async (id: string): Promise<void> => {
   if (!response.ok) {
     throw new Error("Failed to reject request: " + response.statusText);
   }
+
+  return true;
 };
