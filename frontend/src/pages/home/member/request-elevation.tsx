@@ -1,46 +1,70 @@
 import { FormEvent, useState } from "react";
+import {
+  TextField,
+  FormLabel,
+  FormControl,
+  Select,
+  MenuItem,
+  Button,
+} from "@mui/material";
 import { useMutation } from "../../../hooks/useFetch";
-import { createRequest, RequestRequest } from "../../../api/requests";
+import { createRequest, GroupRequestPayload } from "../../../api/requests";
+import { GROUPS_IDS } from "../../../utils/constants";
 
-export const RequestElevation = ({ group }: { group: string }) => {
-  const [role, setRole] = useState("");
+export const RequestElevation = () => {
+  const [group, setgroup] = useState<string>("");
   const [description, setDescription] = useState("");
   const { mutate, loading } = useMutation(createRequest);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const request = { from: group, to: role, description } as RequestRequest;
-    await mutate(request);
+    const request = { group, description } as GroupRequestPayload;
+    const response = await mutate(request);
+    if (response instanceof Error || !response) {
+      console.error(response.message);
+      alert("Failed to create request");
+      return;
+    }
     window.location.reload();
   };
 
   return (
-    <div className="flex flex-col gap-2 p-4 bg-gray-100 rounded-md">
-      <h2 className="text-lg font-bold">Request elevation</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <select
-          value={role}
-          onChange={(event) => setRole(event.target.value)}
-          disabled={group === "read-only"}
-          className="p-2 rounded-md"
-        >
-          <option value="">Select a role</option>
-          <option value="admins">Admins</option>
-          <option value="super-admins">Super Admins</option>
-        </select>
-        <textarea
+    <div className="flex flex-col gap-5 p-10 bg-gray-100 rounded-md">
+      <h2 className="text-2xl font-bold">Request elevation</h2>
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        <FormControl>
+          <FormLabel>Group</FormLabel>
+          <Select
+            value={group}
+            onChange={(event) => setgroup(event.target.value as string)}
+          >
+            <MenuItem value="" disabled>
+              Select a group
+            </MenuItem>
+            {Object.entries(GROUPS_IDS).map(([key, value]) => (
+              <MenuItem key={key} value={value}>
+                {key}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          label="Description"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          placeholder="Description"
-          className="p-2 rounded-md"
+          multiline
+          rows={4}
         />
-        <button
+        <Button
           type="submit"
-          disabled={loading || role === ""}
-          className="p-2 bg-blue-500 text-white rounded-md"
+          variant="contained"
+          disabled={loading}
+          sx={{
+            paddingY: "15px",
+          }}
         >
-          {loading ? "Loading..." : "Submit"}
-        </button>
+          Request
+        </Button>
       </form>
     </div>
   );

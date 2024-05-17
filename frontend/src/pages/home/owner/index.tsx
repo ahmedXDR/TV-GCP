@@ -1,26 +1,41 @@
 import { useState } from "react";
-import { Group } from "../../../api/group";
 import { RequestsHistory } from "./requests-history";
-import { FilterHistory } from "./filter-history";
+import { FilterHistory, FilterType } from "./filter-history";
+import { Container } from "@mui/material";
+import { LogoutButton } from "../../../components/logout";
 
-const OwnerView = ({ groupInfo }: { groupInfo: Group }) => {
-  const [filter, setFilter] = useState("All");
+const OwnerView = () => {
+  const [filter, setFilter] = useState<FilterType>("all");
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">Welcome owner!</h1>
-        <p>
-          You are in the <strong>{groupInfo.group}</strong> group.
-        </p>
-        <p>
-          You are the <strong>{groupInfo.owner ? "owner" : "not owner"}</strong>{" "}
-          of the group.
-        </p>
+    <Container
+      maxWidth="lg"
+      sx={{
+        paddingTop: 4,
+        paddingBottom: 4,
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+      }}
+    >
+      <div className="p-20 bg-gray-100 rounded-lg text-center flex flex-col gap-5">
+        <div>
+          <h1 className="text-6xl font-bold mb-4">Welcome Admin!</h1>
+          <p className="text-lg">
+            You can see the history of requests and accept or reject the pending
+            ones.
+          </p>
+        </div>
+        <LogoutButton />
       </div>
-      <FilterHistory setFilter={setFilter} />
-      <RequestsHistory filter={filter} />
-    </div>
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-wrap justify-between items-center gap-5">
+          <h3 className="text-3xl font-bold">Requests History</h3>
+          <FilterHistory filter={filter} setFilter={setFilter} />
+        </div>
+        <RequestsHistory filter={filter} />
+      </div>
+    </Container>
   );
 };
 

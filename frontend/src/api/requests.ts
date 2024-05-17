@@ -2,35 +2,21 @@ import { getUserAccessToken } from "../firebase/auth";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export type User = {
+export type ElevatePermissionResponse = {
+  id: string;
   email: string;
-  name: string;
   group: string;
-};
-
-export type RequestResponseOwners = {
-  id: string;
-  user: User;
   description: string;
+  status: "pending" | "accepted" | "rejected";
   created_at: string;
 };
 
-export type RequestResponse = {
-  id: string;
-  user: User;
-  to: string;
-  description: string;
-  status: "pending" | "approved" | "rejected";
-  created_at: string;
-};
-
-export type RequestRequest = {
-  from: string;
-  to: string;
+export type GroupRequestPayload = {
+  group: string;
   description: string;
 };
 
-export const getRequests = async (): Promise<RequestResponse[]> => {
+export const getRequests = async (): Promise<ElevatePermissionResponse[]> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "GET",
     headers: {
@@ -46,17 +32,16 @@ export const getRequests = async (): Promise<RequestResponse[]> => {
 };
 
 export const createRequest = async ({
-  from,
-  to,
+  group,
   description,
-}: RequestRequest): Promise<RequestResponse> => {
+}: GroupRequestPayload): Promise<ElevatePermissionResponse> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ from, to, description }),
+    body: JSON.stringify({ group, description }),
   });
 
   if (!response.ok) {
@@ -66,8 +51,8 @@ export const createRequest = async ({
   return await response.json();
 };
 
-export const acceptRequest = async (id: string): Promise<void> => {
-  const response = await fetch(`${BACKEND_URL}/requests/${id}/accept`, {
+export const acceptRequest = async (id: string): Promise<boolean> => {
+  const response = await fetch(`${BACKEND_URL}/accept?id=${id}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
@@ -77,10 +62,12 @@ export const acceptRequest = async (id: string): Promise<void> => {
   if (!response.ok) {
     throw new Error("Failed to accept request: " + response.statusText);
   }
+
+  return true;
 };
 
-export const rejectRequest = async (id: string): Promise<void> => {
-  const response = await fetch(`${BACKEND_URL}/requests/${id}/reject`, {
+export const rejectRequest = async (id: string): Promise<boolean> => {
+  const response = await fetch(`${BACKEND_URL}/reject?id=${id}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
@@ -90,4 +77,6 @@ export const rejectRequest = async (id: string): Promise<void> => {
   if (!response.ok) {
     throw new Error("Failed to reject request: " + response.statusText);
   }
+
+  return true;
 };

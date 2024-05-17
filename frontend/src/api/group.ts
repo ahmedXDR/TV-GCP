@@ -2,13 +2,19 @@ import { getUserAccessToken } from "../firebase/auth";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export type Group = {
-  group: "read-only" | "admins" | "super-admins";
-  owner: boolean;
-};
+export interface GroupResponse {
+  displayName: string;
+  group: string;
+  groupKey: {
+    id: string;
+  };
+  roles: {
+    role: string;
+  }[];
+}
 
-export const getCurrentUserGroup = async (): Promise<Group> => {
-  const response = await fetch(`${BACKEND_URL}/group`, {
+export const getCurrentUserGroups = async (): Promise<GroupResponse[]> => {
+  const response = await fetch(`${BACKEND_URL}/groups`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
