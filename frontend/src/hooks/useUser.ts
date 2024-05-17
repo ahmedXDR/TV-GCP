@@ -11,7 +11,6 @@ const useUser = () => {
     });
   }, []);
 
-  console.log(user);
   return user;
 };
 

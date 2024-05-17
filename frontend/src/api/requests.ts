@@ -15,22 +15,20 @@ export type RequestResponseOwners = {
   created_at: string;
 };
 
-export type RequestResponse = {
+export type ElevatePermissionResponse = {
   id: string;
-  user: User;
-  to: string;
+  group: string;
   description: string;
   status: "pending" | "approved" | "rejected";
   created_at: string;
 };
 
-export type RequestRequest = {
-  from: string;
-  to: string;
+export type GroupRequestPayload = {
+  group: string;
   description: string;
 };
 
-export const getRequests = async (): Promise<RequestResponse[]> => {
+export const getRequests = async (): Promise<ElevatePermissionResponse[]> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "GET",
     headers: {
@@ -46,17 +44,16 @@ export const getRequests = async (): Promise<RequestResponse[]> => {
 };
 
 export const createRequest = async ({
-  from,
-  to,
+  group,
   description,
-}: RequestRequest): Promise<RequestResponse> => {
+}: GroupRequestPayload): Promise<ElevatePermissionResponse> => {
   const response = await fetch(`${BACKEND_URL}/requests`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${await getUserAccessToken()}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ from, to, description }),
+    body: JSON.stringify({ group, description }),
   });
 
   if (!response.ok) {
